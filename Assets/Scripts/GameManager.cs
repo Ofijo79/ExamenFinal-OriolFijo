@@ -9,12 +9,7 @@ public class GameManager : MonoBehaviour
 
     public Text coinText;
     int coins;
-
-
-    void Update()
-    {
-
-    }
+    public List<GameObject> enemiesInScreen;
 
     public void GameOver()
     {
@@ -25,5 +20,23 @@ public class GameManager : MonoBehaviour
     {
         coins++;
         coinText.text = coins.ToString();
+    }
+    void KillAllEnemies()
+    {
+        foreach (GameObject item in enemiesInScreen)
+        {
+            Destroy(item);
+        }
+        /*while
+        {
+            bromita
+        }*/
+    }
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            KillAllEnemies();
+        }
     }
 }

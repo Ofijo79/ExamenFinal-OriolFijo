@@ -19,6 +19,11 @@ public class PlayerController : MonoBehaviour
     //Variable para almacenar el input de movimiento
     float horizontal;
 
+    public Animator anim;
+
+    public GameObject bulletPrefab; 
+    public Transform bulletSpawn;
+
     GameManager gameManager;
     SFXManager sfxManager;
 
@@ -33,9 +38,7 @@ public class PlayerController : MonoBehaviour
         //Buscamos el objeto del GameManager y SFXManager lo asignamos a las variables
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         sfxManager = GameObject.Find("SFXManager").GetComponent<SFXManager>();
-
-
-        
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -48,19 +51,27 @@ public class PlayerController : MonoBehaviour
             if(horizontal < 0)
             {
                 transform.rotation = Quaternion.Euler(0, 180, 0);
+                anim.SetBool("IsRunning", true);
             }
             else if(horizontal > 0)
             {
                 transform.rotation = Quaternion.Euler(0, 0, 0);
+                anim.SetBool("IsRunning", true);
             }
-
-
-
+            else
+            {
+                anim.SetBool("IsRunning", false);
+            }
 
             if(Input.GetButtonDown("Jump") && sensor.isGrounded)
             {
                 rBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                anim.SetBool("IsJumping", true);
             }
+            if(Input.GetKeyDown(KeyCode.F))
+            {
+            Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
+            } 
         }    
         
     }
